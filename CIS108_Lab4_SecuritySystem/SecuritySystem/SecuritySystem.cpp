@@ -37,7 +37,7 @@ bool isPersonAllowed (std::string person)
 	{
 		if (person == ALLOW_ACCESS[x])
 		{
-			is_allowed == true;
+			is_allowed = true; // == for conditional eval
 			break;
 		}
 	}
@@ -46,7 +46,7 @@ bool isPersonAllowed (std::string person)
 }
 
 // Handles events from the smart door lock IoT device
-void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, int pin_code)
+void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, std::string pin_code) //way off on my last 'fix'.
 {
 	// NOTE: The pin_code is only valid for the PIN_CODE_ENTERED event
 
@@ -64,7 +64,7 @@ void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, int pin_code)
 		{
 			if (allowed_person_inside)
 			{
-				// fixed (
+			
 				// it appears the person is leaving
 				allowed_person_inside = false;
 			}
@@ -78,7 +78,7 @@ void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, int pin_code)
 				else
 				{
 					// access was NOT granted to this person
-					SecurityAlarm::triggerAlarm ("true");
+					SecurityAlarm::triggerAlarm (true);
 				}
 			}
 		} break;
@@ -90,8 +90,8 @@ void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, int pin_code)
 		} break;
 
 		case DoorLock::DoorLockEvent::PIN_CODE_ENTERED:
-		{	SECURE_PIN_CODE_INT= X
-			if (pin_code == SECURE_PIN_CODE);
+		{
+			if (std::stoi(pin_code) == std::stoi(SECURE_PIN_CODE)); //from Rash. Stoi is string to int
 			{
 				access_granted = true;
 				DoorLock::unlockDoor ();
@@ -116,7 +116,7 @@ void ssVideoDoorbellEventHandler (VideoDoorbell::VideoDoorbellEvent event, std::
 		{
 			MobileAppInterface::notifyFrontDoorActivity (true, person_at_door);
 
-			if (!isPersonAllowed (person_at_door))
+			if (isPersonAllowed (person_at_door)) //typo?
 			{
 				access_granted = true;
 				DoorLock::unlockDoor ();
