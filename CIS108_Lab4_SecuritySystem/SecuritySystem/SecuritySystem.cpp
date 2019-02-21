@@ -91,10 +91,15 @@ void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, std::string pin_code
 
 		case DoorLock::DoorLockEvent::PIN_CODE_ENTERED:
 		{
-			if (std::stoi(pin_code) == std::stoi(SECURE_PIN_CODE)); //from Rash. Stoi is string to int
+			if (stoi(pin_code) == stoi(SECURE_PIN_CODE)) 
 			{
 				access_granted = true;
 				DoorLock::unlockDoor ();
+			}
+			else // case for wrong pin 
+			{
+				access_granted = false;
+				DoorLock::lockDoor();
 			}
 		} break;
 	}
@@ -116,7 +121,7 @@ void ssVideoDoorbellEventHandler (VideoDoorbell::VideoDoorbellEvent event, std::
 		{
 			MobileAppInterface::notifyFrontDoorActivity (true, person_at_door);
 
-			if (isPersonAllowed (person_at_door)) //typo?
+			if (isPersonAllowed (person_at_door)) //only allowed access
 			{
 				access_granted = true;
 				DoorLock::unlockDoor ();
