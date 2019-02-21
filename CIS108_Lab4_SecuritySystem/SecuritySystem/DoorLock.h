@@ -37,7 +37,7 @@ namespace DoorLock
 	void unlockDoor ();
 
 	// Enter a pin code
-	void enterPinCode (int pin_code);
+	void enterPinCode (std::string pin_code); //so it isn't saved as int
 
 	// The door sensor was updated (opened/closed)
 	void doorSensorUpdate (bool opened);
