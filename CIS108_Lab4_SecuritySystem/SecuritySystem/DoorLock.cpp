@@ -60,7 +60,7 @@ namespace DoorLock
 	}
 
 	// Enter a pin code
-	void enterPinCode (int pin_code)
+	void enterPinCode (std::string pin_code) //not int
 	{
 		#ifdef OUTPUT_EVENTS_TO_CONSOLE
 			std::cout << "[DoorLock]      A pin code was entered: " << pin_code << std::endl;
