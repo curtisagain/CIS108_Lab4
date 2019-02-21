@@ -91,16 +91,12 @@ void ssDoorLockEventHandler (DoorLock::DoorLockEvent event, std::string pin_code
 
 		case DoorLock::DoorLockEvent::PIN_CODE_ENTERED:
 		{
-			if (stoi(pin_code) == stoi(SECURE_PIN_CODE)) 
+			if (std::stoi(pin_code) == std::stoi(SECURE_PIN_CODE)) //for identical output  
 			{
 				access_granted = true;
 				DoorLock::unlockDoor ();
 			}
-			else // case for wrong pin 
-			{
-				access_granted = false;
-				DoorLock::lockDoor();
-			}
+			
 		} break;
 	}
 }
